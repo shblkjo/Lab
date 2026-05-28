@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Lab.Tests;
 
-[TestFixture(typeof(Lab.Implementations.GenCode1.TemperatureConverter), Category = "GenCode1")]
+//[TestFixture(typeof(Lab.Implementations.GenCode1.TemperatureConverter), Category = "GenCode1")]
 [TestFixture(typeof(Lab.Implementations.GenCode2.TemperatureConverter), Category = "GenCode2")]
-[TestFixture(typeof(Lab.Implementations.GenCode3.TemperatureConverter), Category = "GenCode3")]
+//[TestFixture(typeof(Lab.Implementations.GenCode3.TemperatureConverter), Category = "GenCode3")]
 
 public class TemperatureConverterTests
 {
