@@ -1,47 +1,47 @@
 name: Comparative Test Report
 
 on:
-  workflow_dispatch:  # Запуск только вручную для сравнения
+  workflow_dispatch:
 
 jobs:
   test-ai-v1:
-    name: Test AI Version 1
+    name: Test AI Version 1 (GenCode1)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ai-version-1 # Принудительно проверяем ветку v1
+          ref: ai-1
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 9.0.x
-      - run: dotnet restore tests/Module.Tests/Module.Tests.csproj
-      - run: dotnet build tests/Module.Tests/Module.Tests.csproj --no-restore
-      - run: dotnet test tests/Module.Tests/Module.Tests.csproj --no-build --verbosity normal
+      - run: dotnet restore
+      - run: dotnet build --no-restore
+      - run: dotnet test --no-build --verbosity normal
 
   test-ai-v2:
-    name: Test AI Version 2
+    name: Test AI Version 2 (GenCode2)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ai-version-2 # Принудительно проверяем ветку v2
+          ref: ai-2
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 9.0.x
-      - run: dotnet restore tests/Module.Tests/Module.Tests.csproj
-      - run: dotnet build tests/Module.Tests/Module.Tests.csproj --no-restore
-      - run: dotnet test tests/Module.Tests/Module.Tests.csproj --no-build --verbosity normal
+      - run: dotnet restore
+      - run: dotnet build --no-restore
+      - run: dotnet test --no-build --verbosity normal
 
   test-ai-v3:
-    name: Test AI Version 3
+    name: Test AI Version 3 (GenCode3)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ai-version-3 # Принудительно проверяем ветку v3
+          ref: ai-3
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 9.0.x
-      - run: dotnet restore tests/Module.Tests/Module.Tests.csproj
-      - run: dotnet build tests/Module.Tests/Module.Tests.csproj --no-restore
-      - run: dotnet test tests/Module.Tests/Module.Tests.csproj --no-build --verbosity normal
+      - run: dotnet restore
+      - run: dotnet build --no-restore
+      - run: dotnet test --no-build --verbosity normal
