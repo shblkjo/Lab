@@ -3,100 +3,99 @@ using Lab.Interfaces;
 
 namespace Lab.Implementations.GenCode1
 {
-#error version
     public class TemperatureConverter : ITemperatureConverter
     {
-        // Константы для абсолютного нуля в разных единицах измерения
+        // ГЉГ®Г­Г±ГІГ Г­ГІГ» Г¤Г«Гї Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї Гў Г°Г Г§Г­Г»Гµ ГҐГ¤ГЁГ­ГЁГ¶Г Гµ ГЁГ§Г¬ГҐГ°ГҐГ­ГЁГї
         private const double AbsoluteZeroCelsius = -273.15;
         private const double AbsoluteZeroFahrenheit = -459.67;
         private const double AbsoluteZeroKelvin = 0.0;
 
         /// <summary>
-        /// Преобразует Кельвины в Цельсии.
+        /// ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГІ ГЉГҐГ«ГјГўГЁГ­Г» Гў Г–ГҐГ«ГјГ±ГЁГЁ.
         /// </summary>
-        /// <param name="kelvin">Температура в Кельвинах</param>
-        /// <returns>Температура в Цельсиях</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Выбрасывается, если температура ниже абсолютного нуля</exception>
+        /// <param name="kelvin">Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў ГЉГҐГ«ГјГўГЁГ­Г Гµ</param>
+        /// <returns>Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў Г–ГҐГ«ГјГ±ГЁГїГµ</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Г‚Г»ГЎГ°Г Г±Г»ГўГ ГҐГІГ±Гї, ГҐГ±Г«ГЁ ГІГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї</exception>
         public double KelvinToCelsius(double kelvin)
         {
             if (kelvin < AbsoluteZeroKelvin)
                 throw new ArgumentOutOfRangeException(nameof(kelvin),
-                    $"Температура не может быть ниже абсолютного нуля ({AbsoluteZeroKelvin} K)");
+                    $"Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї ({AbsoluteZeroKelvin} K)");
 
             return kelvin - 273.15;
         }
 
         /// <summary>
-        /// Преобразует Фаренгейты в Цельсии.
+        /// ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГІ Г”Г Г°ГҐГ­ГЈГҐГ©ГІГ» Гў Г–ГҐГ«ГјГ±ГЁГЁ.
         /// </summary>
-        /// <param name="fahrenheit">Температура в Фаренгейтах</param>
-        /// <returns>Температура в Цельсиях</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Выбрасывается, если температура ниже абсолютного нуля</exception>
+        /// <param name="fahrenheit">Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў Г”Г Г°ГҐГ­ГЈГҐГ©ГІГ Гµ</param>
+        /// <returns>Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў Г–ГҐГ«ГјГ±ГЁГїГµ</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Г‚Г»ГЎГ°Г Г±Г»ГўГ ГҐГІГ±Гї, ГҐГ±Г«ГЁ ГІГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї</exception>
         public double FahrenheitToCelsius(double fahrenheit)
         {
             if (fahrenheit < AbsoluteZeroFahrenheit)
                 throw new ArgumentOutOfRangeException(nameof(fahrenheit),
-                    $"Температура не может быть ниже абсолютного нуля ({AbsoluteZeroFahrenheit} °F)");
+                    $"Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї ({AbsoluteZeroFahrenheit} В°F)");
 
             return (fahrenheit - 32) * 5 / 9;
         }
 
         /// <summary>
-        /// Преобразует Цельсии в Кельвины.
+        /// ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГІ Г–ГҐГ«ГјГ±ГЁГЁ Гў ГЉГҐГ«ГјГўГЁГ­Г».
         /// </summary>
-        /// <param name="celsius">Температура в Цельсиях</param>
-        /// <returns>Температура в Кельвинах</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Выбрасывается, если температура ниже абсолютного нуля</exception>
+        /// <param name="celsius">Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў Г–ГҐГ«ГјГ±ГЁГїГµ</param>
+        /// <returns>Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў ГЉГҐГ«ГјГўГЁГ­Г Гµ</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Г‚Г»ГЎГ°Г Г±Г»ГўГ ГҐГІГ±Гї, ГҐГ±Г«ГЁ ГІГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї</exception>
         public double CelsiusToKelvin(double celsius)
         {
             if (celsius < AbsoluteZeroCelsius)
                 throw new ArgumentOutOfRangeException(nameof(celsius),
-                    $"Температура не может быть ниже абсолютного нуля ({AbsoluteZeroCelsius} °C)");
+                    $"Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї ({AbsoluteZeroCelsius} В°C)");
 
             return celsius + 273.15;
         }
 
         /// <summary>
-        /// Преобразует Фаренгейты в Кельвины.
+        /// ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГІ Г”Г Г°ГҐГ­ГЈГҐГ©ГІГ» Гў ГЉГҐГ«ГјГўГЁГ­Г».
         /// </summary>
-        /// <param name="fahrenheit">Температура в Фаренгейтах</param>
-        /// <returns>Температура в Кельвинах</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Выбрасывается, если температура ниже абсолютного нуля</exception>
+        /// <param name="fahrenheit">Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў Г”Г Г°ГҐГ­ГЈГҐГ©ГІГ Гµ</param>
+        /// <returns>Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў ГЉГҐГ«ГјГўГЁГ­Г Гµ</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Г‚Г»ГЎГ°Г Г±Г»ГўГ ГҐГІГ±Гї, ГҐГ±Г«ГЁ ГІГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї</exception>
         public double FahrenheitToKelvin(double fahrenheit)
         {
             if (fahrenheit < AbsoluteZeroFahrenheit)
                 throw new ArgumentOutOfRangeException(nameof(fahrenheit),
-                    $"Температура не может быть ниже абсолютного нуля ({AbsoluteZeroFahrenheit} °F)");
+                    $"Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї ({AbsoluteZeroFahrenheit} В°F)");
 
             return (fahrenheit + 459.67) * 5 / 9;
         }
 
         /// <summary>
-        /// Преобразует Цельсии в Фаренгейты.
+        /// ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГІ Г–ГҐГ«ГјГ±ГЁГЁ Гў Г”Г Г°ГҐГ­ГЈГҐГ©ГІГ».
         /// </summary>
-        /// <param name="celsius">Температура в Цельсиях</param>
-        /// <returns>Температура в Фаренгейтах</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Выбрасывается, если температура ниже абсолютного нуля</exception>
+        /// <param name="celsius">Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў Г–ГҐГ«ГјГ±ГЁГїГµ</param>
+        /// <returns>Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў Г”Г Г°ГҐГ­ГЈГҐГ©ГІГ Гµ</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Г‚Г»ГЎГ°Г Г±Г»ГўГ ГҐГІГ±Гї, ГҐГ±Г«ГЁ ГІГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї</exception>
         public double CelsiusToFahrenheit(double celsius)
         {
             if (celsius < AbsoluteZeroCelsius)
                 throw new ArgumentOutOfRangeException(nameof(celsius),
-                    $"Температура не может быть ниже абсолютного нуля ({AbsoluteZeroCelsius} °C)");
+                    $"Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї ({AbsoluteZeroCelsius} В°C)");
 
             return (celsius * 9 / 5) + 32;
         }
 
         /// <summary>
-        /// Преобразует Кельвины в Фаренгейты.
+        /// ГЏГ°ГҐГ®ГЎГ°Г Г§ГіГҐГІ ГЉГҐГ«ГјГўГЁГ­Г» Гў Г”Г Г°ГҐГ­ГЈГҐГ©ГІГ».
         /// </summary>
-        /// <param name="kelvin">Температура в Кельвинах</param>
-        /// <returns>Температура в Фаренгейтах</returns>
-        /// <exception cref="ArgumentOutOfRangeException">Выбрасывается, если температура ниже абсолютного нуля</exception>
+        /// <param name="kelvin">Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў ГЉГҐГ«ГјГўГЁГ­Г Гµ</param>
+        /// <returns>Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Гў Г”Г Г°ГҐГ­ГЈГҐГ©ГІГ Гµ</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Г‚Г»ГЎГ°Г Г±Г»ГўГ ГҐГІГ±Гї, ГҐГ±Г«ГЁ ГІГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї</exception>
         public double KelvinToFahrenheit(double kelvin)
         {
             if (kelvin < AbsoluteZeroKelvin)
                 throw new ArgumentOutOfRangeException(nameof(kelvin),
-                    $"Температура не может быть ниже абсолютного нуля ({AbsoluteZeroKelvin} K)");
+                    $"Г’ГҐГ¬ГЇГҐГ°Г ГІГіГ°Г  Г­ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г­ГЁГ¦ГҐ Г ГЎГ±Г®Г«ГѕГІГ­Г®ГЈГ® Г­ГіГ«Гї ({AbsoluteZeroKelvin} K)");
 
             return (kelvin * 9 / 5) - 459.67;
         }
