@@ -8,25 +8,50 @@ on:
   workflow_dispatch: # Добавлено для ручного запуска
 
 jobs:
-  build-and-test:
+  test-generation-and-execution:
     runs-on: ubuntu-latest
+    
     steps:
+      # 1. Получение кода
       - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/checkout@v4
+      
+      # 2. Настройка Python для генератора
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          dotnet-version: 9.0.x
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: pip install pyyaml
+      
+      # 3. Генерация тестов из спецификации
+      - name: Generate NUnit tests
+        run: python generator/gen_tests.py --config config.yaml
+      
+      # 4. Настройка .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      
+      # 5. Восстановление зависимостей и сборка
       - name: Restore dependencies
         run: dotnet restore
+      
       - name: Build
-        run: dotnet build --no-restore
-      - name: Test
-        run: dotnet test --no-build --verbosity normal --logger "console;verbosity=detailed"
-      # Опционально: Публикация результатов тестов
-      - name: Publish Test Results
-        uses: actions/upload-artifact@v3
+        run: dotnet build --no-restore --configuration Release
+      
+      # 6. Запуск тестов (существующие + сгенерированные)
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
+      
+      # 7. Сохранение результатов
+      - name: Upload test results
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: nunit-test-results-${{ github.ref_name }}
-          path: '**/*.trx'
+          name: nunit-test-results
+          path: |
+            **/TestResults/
+            **/*.trx
