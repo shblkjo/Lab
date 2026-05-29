@@ -3,5 +3,4 @@
 target_language: csharp
 test_framework: nunit
 spec_path: spec/temperatureconverter.yaml
-output_dir: Tests
-test_class_name: GeneratedTemperatureConverterTests
+output_dir: tests/Module.Tests
