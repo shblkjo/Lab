@@ -75,7 +75,6 @@ namespace Lab.Tests.Generated
         {test_methods}
     }}
 }}
-'''
 
 def format_csharp_input(value: Any) -> str:
     """Преобразует значение из YAML в литерал C#."""
@@ -146,7 +145,7 @@ def generate_method_tests(method_data: Dict[str, Any]) -> List[str]:
     {{
 {test_cases_source}
     }}
-'''
+    
     return [method_template]  # ← ИСПРАВЛЕНО: правильный отступ
 
 def render_and_save(spec: Dict[str, Any], config: Dict[str, Any]) -> None:
