@@ -1,0 +1,157 @@
+module: TemperatureConverter
+
+# Трассировка функциональных требований (FR)
+functional_requirements:
+  - id: FR-1
+    desc: "Конвертация из Цельсия в Кельвины: K = C + 273.15"
+  - id: FR-2
+    desc: "Конвертация из Цельсия в Фаренгейты: F = C * 9/5 + 32"
+  - id: FR-3
+    desc: "Конвертация из Фаренгейта в Цельсии: C = (F - 32) * 5/9"
+  - id: FR-4
+    desc: "Конвертация из Фаренгейта в Кельвины: K = (F + 459.67) * 5/9"
+  - id: FR-5
+    desc: "Конвертация из Кельвина в Цельсии: C = K - 273.15"
+  - id: FR-6
+    desc: "Конвертация из Кельвина в Фаренгейты: F = K * 9/5 - 459.67"
+
+# Трассировка нефункциональных требований (NFR)
+non_functional_requirements:
+  - id: NFR-1
+    desc: "Температура не может быть ниже абсолютного нуля (-273.15°C, -459.67°F, 0K)"
+  - id: NFR-2
+    desc: "При передаче значения ниже абсолютного нуля выбрасывается ArgumentOutOfRangeException"
+  - id: NFR-3
+    desc: "При передаче double.NaN возвращается double.NaN (без исключения)"
+  - id: NFR-4
+    desc: "Точность преобразований – погрешность не более 0.001"
+
+methods:
+  - name: CelsiusToKelvin
+    req_functional: ["FR-1"]
+    req_non_functional: ["NFR-1", "NFR-2", "NFR-3", "NFR-4"]
+    signature: "double CelsiusToKelvin(double celsius)"
+    pre: "celsius >= -273.15 || double.IsNaN(celsius)"
+    post: "Возвращает celsius + 273.15 (если celsius не NaN), иначе возвращает double.NaN"
+    equivalence_classes:
+      - case: "Нормальное значение"
+        inputs: [25.0]
+        expected: "298.15"
+      - case: "Абсолютный ноль"
+        inputs: [-273.15]
+        expected: "0"
+      - case: "Выше абсолютного нуля (граница)"
+        inputs: [-273.1499999]
+        expected: "≈0.0000001"
+      - case: "Ниже абсолютного нуля (должно быть исключение)"
+        inputs: [-274.0]
+        expected: "ArgumentOutOfRangeException"
+      - case: "NaN (не число)"
+        inputs: ["double.NaN"]
+        expected: "double.NaN"
+      - case: "Высокая температура"
+        inputs: [1000.0]
+        expected: "1273.15"
+
+  - name: CelsiusToFahrenheit
+    req_functional: ["FR-2"]
+    req_non_functional: ["NFR-1", "NFR-2", "NFR-3", "NFR-4"]
+    signature: "double CelsiusToFahrenheit(double celsius)"
+    pre: "celsius >= -273.15 || double.IsNaN(celsius)"
+    post: "Возвращает celsius * 9/5 + 32 (если celsius не NaN), иначе возвращает double.NaN"
+    equivalence_classes:
+      - case: "Нормальное значение"
+        inputs: [25.0]
+        expected: "77.0"
+      - case: "Абсолютный ноль"
+        inputs: [-273.15]
+        expected: "-459.67"
+      - case: "Ниже абсолютного нуля"
+        inputs: [-300.0]
+        expected: "ArgumentOutOfRangeException"
+      - case: "NaN"
+        inputs: ["double.NaN"]
+        expected: "double.NaN"
+      - case: "Точка совпадения C и F (-40)"
+        inputs: [-40.0]
+        expected: "-40.0"
+
+  - name: FahrenheitToCelsius
+    req_functional: ["FR-3"]
+    req_non_functional: ["NFR-1", "NFR-2", "NFR-3", "NFR-4"]
+    signature: "double FahrenheitToCelsius(double fahrenheit)"
+    pre: "fahrenheit >= -459.67 || double.IsNaN(fahrenheit)"
+    post: "Возвращает (fahrenheit - 32) * 5/9 (если fahrenheit не NaN), иначе double.NaN"
+    equivalence_classes:
+      - case: "Нормальное значение"
+        inputs: [77.0]
+        expected: "25.0"
+      - case: "Абсолютный ноль"
+        inputs: [-459.67]
+        expected: "-273.15"
+      - case: "Ниже абсолютного нуля"
+        inputs: [-500.0]
+        expected: "ArgumentOutOfRangeException"
+      - case: "NaN"
+        inputs: ["double.NaN"]
+        expected: "double.NaN"
+
+  - name: FahrenheitToKelvin
+    req_functional: ["FR-4"]
+    req_non_functional: ["NFR-1", "NFR-2", "NFR-3", "NFR-4"]
+    signature: "double FahrenheitToKelvin(double fahrenheit)"
+    pre: "fahrenheit >= -459.67 || double.IsNaN(fahrenheit)"
+    post: "Возвращает (fahrenheit + 459.67) * 5/9"
+    equivalence_classes:
+      - case: "Нормальное значение"
+        inputs: [77.0]
+        expected: "298.15"
+      - case: "Абсолютный ноль"
+        inputs: [-459.67]
+        expected: "0"
+      - case: "Ниже абсолютного нуля"
+        inputs: [-500.0]
+        expected: "ArgumentOutOfRangeException"
+      - case: "NaN"
+        inputs: ["double.NaN"]
+        expected: "double.NaN"
+
+  - name: KelvinToCelsius
+    req_functional: ["FR-5"]
+    req_non_functional: ["NFR-1", "NFR-2", "NFR-3", "NFR-4"]
+    signature: "double KelvinToCelsius(double kelvin)"
+    pre: "kelvin >= 0 || double.IsNaN(kelvin)"
+    post: "Возвращает kelvin - 273.15"
+    equivalence_classes:
+      - case: "Нормальное значение"
+        inputs: [298.15]
+        expected: "25.0"
+      - case: "Абсолютный ноль"
+        inputs: [0]
+        expected: "-273.15"
+      - case: "Ниже абсолютного нуля"
+        inputs: [-10.0]
+        expected: "ArgumentOutOfRangeException"
+      - case: "NaN"
+        inputs: ["double.NaN"]
+        expected: "double.NaN"
+
+  - name: KelvinToFahrenheit
+    req_functional: ["FR-6"]
+    req_non_functional: ["NFR-1", "NFR-2", "NFR-3", "NFR-4"]
+    signature: "double KelvinToFahrenheit(double kelvin)"
+    pre: "kelvin >= 0 || double.IsNaN(kelvin)"
+    post: "Возвращает kelvin * 9/5 - 459.67"
+    equivalence_classes:
+      - case: "Нормальное значение"
+        inputs: [298.15]
+        expected: "77.0"
+      - case: "Абсолютный ноль"
+        inputs: [0]
+        expected: "-459.67"
+      - case: "Ниже абсолютного нуля"
+        inputs: [-10.0]
+        expected: "ArgumentOutOfRangeException"
+      - case: "NaN"
+        inputs: ["double.NaN"]
+        expected: "double.NaN"
